@@ -40,13 +40,13 @@ listener "{{ listener.name }}" {
   tls_disable     = {{ listener.tls_disable }}
 {% endif %}
 {% if listener.tls_cert_file is defined and listener.tls_cert_file|length %}
-  listener.tls_cert_file   = "{{ listener.tls_cert_file }}"
+  tls_cert_file   = "{{ listener.tls_cert_file }}"
 {% endif %}
 {% if listener.tls_key_file is defined and listener.tls_key_file|length %}
-  listener.tls_key_file    = "{{ listener.tls_key_file }}"
+  tls_key_file    = "{{ listener.tls_key_file }}"
 {% endif %}
 {% if listener.unauthenticated_metrics_access is defined and listener.unauthenticated_metrics_access|length %}
-  listener.unauthenticated_metrics_access = true
+  unauthenticated_metrics_access = true
 {% endif %}
 }
 {% endfor %}

@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, centos-stream9, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
 
     steps:
       - name: checkout

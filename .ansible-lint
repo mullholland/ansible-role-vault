@@ -1,0 +1,12 @@
+---
+# managed by ansible-role-doc-generator
+exclude_paths:
+  - "./molecule/"
+  - ./.cache
+  - ./.git
+
+skip_list:
+  - '106'       # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern
+  - role-name   # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern
+  - '201'       # linted by yamllint: trailing white space
+  - '204'       # linted by yamllint: too long lines

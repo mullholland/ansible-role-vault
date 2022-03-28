@@ -1,0 +1,27 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Debian/Ubuntu | Install support packages for testing
+      package:
+        name:
+          - "iproute2"  # for ansible_default_ipv4.address
+          - "cron"  # for backup cron
+          - "findutils"  # for backup cron
+        state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: RedHat/CentOS | Install support packages for testing
+      package:
+        name:
+          - "iproute"  # for ansible_default_ipv4.address
+          - "cronie"  # for backup cron
+          - "findutils"  # for backup cron
+        state: latest
+      when: ansible_os_family == "RedHat" or ansible_os_family == "Rocky"
+
+  roles:
+    - role: mullholland.repository_hashicorp

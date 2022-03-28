@@ -1,0 +1,93 @@
+#!/bin/bash
+# {{ ansible_managed }}
+
+BACKUP_DIR='{{ vault_backup.config.directory }}'
+NOW=$(date +'%Y%m%d%H%M')
+PIDFILE='/var/run/vault_backup.pid'
+LOGFILE='{{ vault_backup.config.logfile | default("/var/log/gitlab_backup.log") }}'
+RETENTION="{{ vault_backup.config.retention }}"
+
+# VAULT API ADDRESS
+export VAULT_ADDR={{ vault_api_addr }}
+
+exec 1>>"${LOGFILE}"
+exec 2>&1
+
+#############
+# FUNCTIONS #
+#############
+function check_tools {
+  RM="$(command -v rm)"
+  FIND="$(command -v find)"
+  TAR="$(command -v tar)"
+
+  echo "$(date "+%Y-%m-%d %H:%M:%S") | Check if tools exist"
+  for var in RM FIND TAR; do
+    if [[ ! ${!var}  ]] ; then
+      error_exit "ERROR: Variable $var needed but not set!"
+    fi
+  done
+}
+
+function abort {
+  MSG="ERROR: ${1}"
+  echo "$(date "+%Y-%m-%d %H:%M:%S") | ${MSG}"
+  # ERROR SCRIPT
+  {{ vault_backup.config.script.error | default("# no error script", true) }}
+  exit 255
+}
+
+function check_pid {
+  if [ -f "${PIDFILE}" ]
+  then
+    OLD_PID=$(cat "${PIDFILE}")
+    echo "$(date "+%Y-%m-%d %H:%M:%S") | Check if script is already running"
+    if [ -e "/proc/${OLD_PID}" ] && [ -e "/proc/${OLD_PID}/exe" ]; then
+      abort "PID already exists"
+    else
+      rm -f "${PIDFILE}"
+    fi
+  fi
+
+  echo "$(date "+%Y-%m-%d %H:%M:%S") | Create PID"
+  echo $$ > "${PIDFILE}"
+}
+
+function run_backup {
+  echo "$(date "+%Y-%m-%d %H:%M:%S") | Creating raft SNAPSHOT."
+
+  # shellcheck disable=SC2015 # this is intentional
+  vault operator raft snapshot save "${BACKUP_DIR}/raft-${NOW}.snapshot" \
+  && echo "$(date "+%Y-%m-%d %H:%M:%S") | Backup was successful." \
+  || abort "The Backup failed! Check ${LOGFILE} for more details."
+}
+
+function remove_old_backups {
+  if [ -d "${BACKUP_DIR}" ]
+  then
+    if [ "${BACKUP_DIR}" == "/" ]
+    then
+      abort "The backup dir is not allowed to be \"/\""
+    else
+      echo "$(date "+%Y-%m-%d %H:%M:%S") | Cleanup of backups older than $(( RETENTION )) days."
+      ${FIND} "${BACKUP_DIR}" -name "*.snapshot" -mtime +$(( RETENTION + 1 )) -type f -print -exec "${RM}" -Rf {} \;
+    fi
+  else
+    abort "The backup process failed! The directory ${BACKUP_DIR} does not exist. Check ${LOGFILE} for more details."
+  fi
+}
+
+########
+# MAIN #
+########
+
+check_tools
+check_pid
+# PRE SCRIPT
+{{ vault_backup.config.script.pre | default("# no pre script", true) }}
+run_backup
+remove_old_backups
+# SUCCESS SCRIPT
+{{ vault_backup.config.script.success | default("# no success script", true) }}
+# POST SCRIPT
+{{ vault_backup.config.script.post | default("# no post script", true) }}

@@ -1,0 +1,20 @@
+---
+- name: Install vault
+  ansible.builtin.package:
+    name: "{{ vault_packages }}"
+    state: present
+
+- name: create vault directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0750"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    state: directory
+  with_items:
+    - "{{ vault_config_path }}"
+    - "{{ vault_plugin_path }}"
+    - "{{ vault_data_path }}"
+    - "{{ vault_backup_path }}"
+    - "{{ vault_log_path }}"
+    - "{{ vault_run_path }}"

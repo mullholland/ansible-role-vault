@@ -1,0 +1,16 @@
+---
+# Ansible managed
+
+name: Release to Ansible Galaxy
+
+on:
+  release:
+    types: [released]
+jobs:
+  release:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: galaxy
+        uses: mullholland/galaxy-github-action@v0.1
+        with:
+          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}

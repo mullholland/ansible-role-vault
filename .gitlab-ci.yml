@@ -1,0 +1,69 @@
+---
+image: "registry.gitlab.com/mullholland/docker-molecule-github-action"
+
+services:
+  - docker:dind
+
+stages:
+  - linting
+  - "default-210"
+  - "default-211"
+  - "default-212"
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  PY_COLORS: 1
+  ANSIBLE_FORCE_COLOR: 1
+
+linting:
+  stage: linting
+  variables:
+    COMMAND: "lint"
+  script:
+    - "command=${COMMAND} /opt/molecule.sh"
+
+
+"default-210":
+  needs:
+    - "linting"
+  stage: "default-210"
+  variables:
+    SCENARIO: "default"
+    ANSIBLE: "2.10"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, centos-stream9, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"default-211":
+  needs:
+    - "linting"
+  stage: "default-211"
+  variables:
+    SCENARIO: "default"
+    ANSIBLE: "2.11"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, centos-stream9, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"default-212":
+  needs:
+    - "linting"
+  stage: "default-212"
+  variables:
+    SCENARIO: "default"
+    ANSIBLE: "2.12"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, centos-stream9, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"

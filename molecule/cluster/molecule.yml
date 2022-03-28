@@ -1,0 +1,49 @@
+---
+dependency:
+  name: galaxy
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+driver:
+  name: docker
+platforms:
+  - name: "${scenario:-default}-${ansible:-2.12}-${platform:-fedora35}-01"
+    image: "${namespace:-ghcr.io/mullholland}/docker-molecule-${platform:-fedora35}"
+    command: /sbin/init
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+    groups:
+      - "vault_group"
+    networks:
+      - name: "vault_group"
+  - name: "${scenario:-default}-${ansible:-2.12}-${platform:-fedora35}-02"
+    image: "${namespace:-ghcr.io/mullholland}/docker-molecule-${platform:-fedora35}"
+    command: /sbin/init
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+    groups:
+      - "vault_group"
+    networks:
+      - name: "vault_group"
+  - name: "${scenario:-default}-${ansible:-2.12}-${platform:-fedora35}-03"
+    image: "${namespace:-ghcr.io/mullholland}/docker-molecule-${platform:-fedora35}"
+    command: /sbin/init
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+    groups:
+      - "vault_group"
+    networks:
+      - name: "vault_group"
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_ASYNC_DIR: /tmp/.ansible_async
+verifier:
+  name: ansible

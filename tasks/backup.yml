@@ -1,0 +1,18 @@
+---
+- name: "create /usr/sbin/vault_backup.sh"
+  ansible.builtin.template:
+    src: "usr/sbin/vault_backup.sh.j2"
+    dest: "/usr/sbin/vault_backup.sh"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0750"
+
+- name: "create backup cron /etc/cron.d/vault"
+  ansible.builtin.cron:
+    name: "Vault Backup"
+    cron_file: "vault"
+    minute: "{{ vault_backup.cron.min }}"
+    hour: "{{ vault_backup.cron.hour }}"
+    day: "{{ vault_backup.cron.day }}"
+    job: "/usr/sbin/vault_backup.sh"
+    user: "{{ vault_user }}"

@@ -1,0 +1,18 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    # no ssl certificates for testing
+    vault_listeners:
+      - name: tcp
+        address: "127.0.0.1:8200"
+        cluster_address: "127.0.0.1:8201"
+        tls_disable: "true"
+        unauthenticated_metrics_access: "true"
+    # show more info for testing
+    vault_show_unseal_information: true
+    vault_store_root_token: true
+  roles:
+    - role: "ansible-role-vault"

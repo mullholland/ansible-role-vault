@@ -1,0 +1,38 @@
+---
+- name: "create /etc/vaultd.d/config.hcl"
+  ansible.builtin.template:
+    src: "etc/vault.d/vault.hcl.j2"
+    dest: "/etc/vault.d/vault.hcl"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0640"
+  notify:
+    - restart vault
+
+- name: "create /etc/vaultd.d/config.hcl"
+  ansible.builtin.template:
+    src: "etc/vault.d/vault.env.j2"
+    dest: "/etc/vault.d/vault.env"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0640"
+  notify:
+    - restart vault
+
+- name: place vault license
+  ansible.builtin.copy:
+    content: "{{ vault_license }}"
+    dest: /etc/vault.d/vault.hclic
+    owner: "{{ vault_owner }}"
+    group: "{{ vault_group }}"
+    mode: "0400"
+  notify:
+    - restart vault
+  when:
+    - vault_license is defined
+
+- name: start vault
+  ansible.builtin.service:
+    name: vault
+    state: started
+    enabled: true

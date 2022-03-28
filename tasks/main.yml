@@ -1,0 +1,35 @@
+---
+
+- name: preflight
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
+- name: install vault
+  ansible.builtin.include_tasks:
+    file: install.yml
+
+- name: configure vault
+  ansible.builtin.include_tasks:
+    file: configure.yml
+
+- name: status vault
+  ansible.builtin.include_tasks:
+    file: status.yml
+
+- name: leader
+  ansible.builtin.include_tasks:
+    file: leader.yml
+  when:
+    - inventory_hostname == vault_leader
+
+- name: follower
+  ansible.builtin.include_tasks:
+    file: follower.yml
+  when:
+    - inventory_hostname != vault_leader
+
+- name: backup
+  ansible.builtin.include_tasks:
+    file: backup.yml
+  when:
+    - not vault_backup_disable

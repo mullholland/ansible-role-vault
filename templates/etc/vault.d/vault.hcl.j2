@@ -1,0 +1,74 @@
+# {{ ansible_managed }}
+# Full configuration options can be found at https://www.vaultproject.io/docs/configuration
+
+# ---------------------------------------------------------------------------
+# config general
+# ---------------------------------------------------------------------------
+
+ui                 = {{ vault_ui }}
+disable_mlock      = {{ vault_disable_mlock }}
+disable_cache      = {{ vault_disable_cache }}
+max_lease_ttl      = "{{ vault_max_lease_ttl }}"
+default_lease_ttl  = "{{ vault_default_lease_ttl }}"
+plugin_directory   = "{{ vault_plugin_path }}"
+
+# ---------------------------------------------------------------------------
+# config cluster
+# ---------------------------------------------------------------------------
+
+# Configure clustering.
+disable_clustering = "{{ vault_disable_clustering }}"
+
+# The URL where cluster members can find the leader.
+cluster_addr = "{{ vault_cluster_addr }}"
+
+# The URL where the API will be served. This is the API of a local instance.
+api_addr = "{{ vault_api_addr }}"
+
+# Specifies the identifier for the Vault cluster.
+cluster_name = "{{ vault_cluster_name }}"
+
+# ---------------------------------------------------------------------------
+# config listeners
+# ---------------------------------------------------------------------------
+
+{% for listener in vault_listeners %}
+listener "{{ listener.name }}" {
+  address         = "{{ listener.address }}"
+  cluster_address = "{{ listener.cluster_address }}"
+{% if listener.tls_disable is defined and listener.tls_disable|length %}
+  tls_disable     = {{ listener.tls_disable }}
+{% endif %}
+{% if listener.tls_cert_file is defined and listener.tls_cert_file|length %}
+  listener.tls_cert_file   = "{{ listener.tls_cert_file }}"
+{% endif %}
+{% if listener.tls_key_file is defined and listener.tls_key_file|length %}
+  listener.tls_key_file    = "{{ listener.tls_key_file }}"
+{% endif %}
+{% if listener.unauthenticated_metrics_access is defined and listener.unauthenticated_metrics_access|length %}
+  listener.unauthenticated_metrics_access = true
+{% endif %}
+}
+{% endfor %}
+
+# ---------------------------------------------------------------------------
+# config storage
+# ---------------------------------------------------------------------------
+{% for storage in vault_storages %}
+storage "{{ storage.name }}" {
+  path    = "{{ storage.path }}"
+  node_id = "{{ storage.node_id }}"
+}
+{% endfor %}
+
+# ---------------------------------------------------------------------------
+# Telemetry
+# ---------------------------------------------------------------------------
+
+{% if vault_telemetry_disable != true %}
+telemetry {
+{% for key, value in vault_telemetry.items() %}
+  {{ key }} = {{ value }}
+{% endfor %}
+}
+{% endif %}

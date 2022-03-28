@@ -1,0 +1,158 @@
+---
+# ---------------------------------------------------------------------------
+# Core variables
+# ---------------------------------------------------------------------------
+
+# Packages
+vault_packages:
+  - vault
+  # - vault-enterprise
+
+# System user and group (from package)
+vault_user: "vault"
+vault_group: "vault"
+
+# Paths
+vault_bin_path: "/usr/bin"
+vault_config_path: "/etc/vault.d"
+vault_plugin_path: "/usr/local/lib/vault/plugins"
+vault_data_path: "/opt/vault/data"
+vault_backup_path: "/opt/vault/backup"
+vault_log_path: "/var/log/vault"
+vault_run_path: "/var/run/vault"
+
+# Telemetry
+vault_telemetry_enabled: false
+# metrics
+vault_unauthenticated_metrics_access: false
+
+# ---------------------------------------------------------------------------
+# config general
+# ---------------------------------------------------------------------------
+# Enable the default webUI
+vault_ui: "true"
+# To reduce disk io, mlock can be disabled.
+# https://www.vaultproject.io/docs/configuration/storage/raft
+vault_disable_mlock: "true"
+# Normally a bad idea
+vault_disable_cache: "false"
+
+# Configure some general parameters
+# lease duration for tokens and secrets
+vault_max_lease_ttl: "10h"
+vault_default_lease_ttl: "10h"
+
+# ---------------------------------------------------------------------------
+# config cluster
+# ---------------------------------------------------------------------------
+
+# Configure clustering.
+vault_disable_clustering: "false"
+
+# The leader to use, please use a fqdn, i.e. `vault.example.com`
+# This variable is not required for single-node installations, where the
+# variable `vault_disable_clustering` is set to `"True"`.
+# vault_leader: centos-7
+
+# The URL where cluster members can find the leader.
+vault_cluster_addr: "http://{{ vault_leader | default('localhost') }}:8201"
+
+# The URL where the API will be served. This is the API of a local instance.
+vault_api_addr: "http://127.0.0.1:8200"
+
+# Specifies the identifier for the Vault cluster.
+vault_cluster_name: "Vault Cluster"
+
+# ---------------------------------------------------------------------------
+# Seal transit
+# ---------------------------------------------------------------------------
+vault_transit: false
+vault_transit_protocol: "http"
+vault_transit_server: "{{ vault_leader }}"
+vault_transit_port: "8200"
+
+# ---------------------------------------------------------------------------
+# config listeners
+# ---------------------------------------------------------------------------
+vault_listeners:
+  - name: tcp
+    address: "127.0.0.1:8200"
+    cluster_address: "127.0.0.1:8201"
+    tls_disable: "true"  # must be true if key/cert are missing
+    tls_cert_file: "fullchain.pem"  # optional
+    tls_key_file: "privkey.pem"  # optional
+    unauthenticated_metrics_access: "true"  # optional
+
+# ---------------------------------------------------------------------------
+# config storage
+# ---------------------------------------------------------------------------
+# The storage backend(s) to configure.
+# https://www.vaultproject.io/docs/configuration/storage/raft
+vault_storages:
+  - name: raft
+    path: "{{ vault_data_path }}"
+    node_id: "{{ inventory_hostname }}"
+
+# ---------------------------------------------------------------------------
+# Enterprise Features
+# ---------------------------------------------------------------------------
+# The license is required for Vault enterprise. You can use a trail license:
+# https://www.hashicorp.com/products/vault/trial
+# vault_license: ""
+
+# ---------------------------------------------------------------------------
+# Seals
+# ---------------------------------------------------------------------------
+# Amount of unseal keys to create
+vault_key_shares: 5
+# Amount of unseal keys to unseal
+vault_key_threshold: 3
+# If you want to see the (sensitive) output of `vault operator init`, set
+# this parameter to `true`
+vault_show_unseal_information: false
+# You can store the root token in a file to make using Vault easier.
+vault_store_root_token: false
+
+# You can unseal vault using unseal keys that are known.
+# For new installations, they will be created.
+# vault_unseal_keys:
+#   - KeY-oNe
+#   - KeY-tWo
+#   - KeY-tHrEe
+
+# ---------------------------------------------------------------------------
+# Telemetry
+# ---------------------------------------------------------------------------
+# https://www.vaultproject.io/docs/configuration/telemetry
+# Enable Telemetry
+vault_telemetry_disable: false
+vault_telemetry:
+  # https://www.vaultproject.io/docs/configuration/telemetry#prometheus
+  prometheus_retention_time: '"30s"'
+  disable_hostname: "true"
+  # statsite_address: "statsite.company.local:8125"
+  # statsd_address: "statsd.company.local:8125"
+
+# ---------------------------------------------------------------------------
+# Backup
+# ---------------------------------------------------------------------------
+
+vault_backup_disable: false
+vault_backup:
+  cron:
+    min: "0,30"
+    hour: "*"
+    day: "*"
+  config:
+    directory: "{{ vault_backup_path }}"
+    logfile: "{{ vault_log_path }}/backup.log"
+    retention: "3"  # in days
+    script:
+      # pre: 'curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/XXXX-XXXX-XXXX-XXXX/start'
+      pre: ""
+      # post: 'scp {{ vault_backup_path }}/ /NFS/PATH'
+      post: ""
+      # error: 'echo "Vault Backup error" | mail -s subject user@gmail.com'
+      error: ""
+      # success: 'curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/XXXX-XXXX-XXXX-XXXX'
+      success: ""

@@ -1,0 +1,25 @@
+---
+# molecule_exceptions:
+#   - variation: alpine
+#     reason: "Not idempotent"
+molecule_scenarios:
+  - scenario: "default"
+    ansible: ["2.10", "2.11", "2.12"]
+    platforms:
+      - "debian9"
+      - "debian10"
+      - "debian11"
+      - "ubuntu1804"
+      - "ubuntu2004"
+      - "centos7"
+      - "centos-stream8"
+      - "centos-stream9"
+      - "ubi8"
+      - "fedora34"
+      - "fedora35"
+      - "amazonlinux"
+      - "rockylinux8"
+      - "almalinux8"
+#  - scenario: "cluster"
+#    ansible: ["2.9", "2.10", "2.11"]
+#    platforms: ["ubuntu1604", "ubuntu1804", "ubuntu2004", "centos7", "centos8"]

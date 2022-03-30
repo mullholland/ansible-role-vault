@@ -29,7 +29,7 @@ jobs:
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh
 
-  "default_2.10":
+  "default_previous":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "default_2.11":
+  "default_current":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -67,7 +67,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "default_2.12":
+  "default_next":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -86,7 +86,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "cluster_2.9":
+  "cluster_previous":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -105,7 +105,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "cluster_2.10":
+  "cluster_current":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -124,7 +124,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "cluster_2.11":
+  "cluster_next":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -143,7 +143,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "cluster_notransit_2.9":
+  "cluster_notransit_previous":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -162,7 +162,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "cluster_notransit_2.10":
+  "cluster_notransit_current":
     runs-on: ubuntu-20.04
     needs:
       - linting
@@ -181,7 +181,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-  "cluster_notransit_2.11":
+  "cluster_notransit_next":
     runs-on: ubuntu-20.04
     needs:
       - linting

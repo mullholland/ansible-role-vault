@@ -6,15 +6,15 @@ services:
 
 stages:
   - linting
-  - "default-210"
-  - "default-211"
-  - "default-212"
-  - "cluster-29"
-  - "cluster-210"
-  - "cluster-211"
-  - "cluster_notransit-29"
-  - "cluster_notransit-210"
-  - "cluster_notransit-211"
+  - "default-previous"
+  - "default-current"
+  - "default-next"
+  - "cluster-previous"
+  - "cluster-current"
+  - "cluster-next"
+  - "cluster_notransit-previous"
+  - "cluster_notransit-current"
+  - "cluster_notransit-next"
 
 variables:
   DOCKER_HOST: "tcp://docker:2375"
@@ -29,13 +29,13 @@ linting:
     - "command=${COMMAND} /opt/molecule.sh"
 
 
-"default-210":
+"default-previous":
   needs:
     - "linting"
-  stage: "default-210"
+  stage: "default-previous"
   variables:
     SCENARIO: "default"
-    ANSIBLE: "2.10"
+    ANSIBLE: "previous"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -44,13 +44,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"default-211":
+"default-current":
   needs:
     - "linting"
-  stage: "default-211"
+  stage: "default-current"
   variables:
     SCENARIO: "default"
-    ANSIBLE: "2.11"
+    ANSIBLE: "current"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -59,13 +59,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"default-212":
+"default-next":
   needs:
     - "linting"
-  stage: "default-212"
+  stage: "default-next"
   variables:
     SCENARIO: "default"
-    ANSIBLE: "2.12"
+    ANSIBLE: "next"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -74,13 +74,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster-29":
+"cluster-previous":
   needs:
     - "linting"
-  stage: "cluster-29"
+  stage: "cluster-previous"
   variables:
     SCENARIO: "cluster"
-    ANSIBLE: "2.9"
+    ANSIBLE: "previous"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -89,13 +89,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster-210":
+"cluster-current":
   needs:
     - "linting"
-  stage: "cluster-210"
+  stage: "cluster-current"
   variables:
     SCENARIO: "cluster"
-    ANSIBLE: "2.10"
+    ANSIBLE: "current"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -104,13 +104,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster-211":
+"cluster-next":
   needs:
     - "linting"
-  stage: "cluster-211"
+  stage: "cluster-next"
   variables:
     SCENARIO: "cluster"
-    ANSIBLE: "2.11"
+    ANSIBLE: "next"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -119,13 +119,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster_notransit-29":
+"cluster_notransit-previous":
   needs:
     - "linting"
-  stage: "cluster_notransit-29"
+  stage: "cluster_notransit-previous"
   variables:
     SCENARIO: "cluster_notransit"
-    ANSIBLE: "2.9"
+    ANSIBLE: "previous"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -134,13 +134,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster_notransit-210":
+"cluster_notransit-current":
   needs:
     - "linting"
-  stage: "cluster_notransit-210"
+  stage: "cluster_notransit-current"
   variables:
     SCENARIO: "cluster_notransit"
-    ANSIBLE: "2.10"
+    ANSIBLE: "current"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -149,13 +149,13 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster_notransit-211":
+"cluster_notransit-next":
   needs:
     - "linting"
-  stage: "cluster_notransit-211"
+  stage: "cluster_notransit-next"
   variables:
     SCENARIO: "cluster_notransit"
-    ANSIBLE: "2.11"
+    ANSIBLE: "next"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:

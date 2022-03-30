@@ -80,7 +80,7 @@ vault_cluster_name: "Vault Cluster"
 # ---------------------------------------------------------------------------
 vault_transit: false
 vault_transit_protocol: "http"
-vault_transit_server: "{{ vault_leader }}"
+vault_transit_server: "{{ vault_cluster_addr }}"
 vault_transit_port: "8200"
 
 # ---------------------------------------------------------------------------
@@ -253,6 +253,11 @@ The minimum version of Ansible required is 2.10, tests have been done to:
 -   The last 2 versions.
 -   The current version.
 
+This Role has the following additional molecule test scenarios:
+-   cluster
+-   cluster_notransit
+
+Details can be found in ```molecule/```
 
 
 ## [Exceptions](#exceptions)

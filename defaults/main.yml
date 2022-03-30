@@ -68,7 +68,7 @@ vault_cluster_name: "Vault Cluster"
 # ---------------------------------------------------------------------------
 vault_transit: false
 vault_transit_protocol: "http"
-vault_transit_server: "{{ vault_leader }}"
+vault_transit_server: "{{ vault_cluster_addr }}"
 vault_transit_port: "8200"
 
 # ---------------------------------------------------------------------------

@@ -29,6 +29,22 @@ api_addr = "{{ vault_api_addr }}"
 cluster_name = "{{ vault_cluster_name }}"
 
 # ---------------------------------------------------------------------------
+# config transit seal
+# ---------------------------------------------------------------------------
+
+{% if vault_transit is defined and vault_transit %}
+seal "transit" {
+  address            = "{{ vault_transit_address }}"
+  token              = "{{ vault_transit_token }}"
+  disable_renewal    = "false"
+
+  key_name           = "autounseal"
+  mount_path         = "transit/"
+  tls_skip_verify    = "true"
+}
+{% endif %}
+
+# ---------------------------------------------------------------------------
 # config listeners
 # ---------------------------------------------------------------------------
 

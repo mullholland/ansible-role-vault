@@ -1,6 +1,6 @@
 ---
 - name: Converge
-  hosts: vault_group
+  hosts: all
   become: true
   gather_facts: true
   vars:
@@ -21,14 +21,6 @@
     # show more info for testing
     vault_show_unseal_information: true
     vault_store_root_token: true
-    vault_transit: true
-    vault_transit_address: "{{ transit_cluster_address }}"
-    vault_transit_token: "{{ transit_cluster_token }}"
-
-  pre_tasks:
-    - name: Include .env from prepare as transit variables.
-      include_vars:
-        file: "{{ playbook_dir }}/.env"
 
   roles:
     - role: "ansible-role-vault"

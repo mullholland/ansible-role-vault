@@ -9,6 +9,12 @@ stages:
   - "default-210"
   - "default-211"
   - "default-212"
+  - "cluster-29"
+  - "cluster-210"
+  - "cluster-211"
+  - "cluster_notransit-29"
+  - "cluster_notransit-210"
+  - "cluster_notransit-211"
 
 variables:
   DOCKER_HOST: "tcp://docker:2375"
@@ -60,6 +66,96 @@ linting:
   variables:
     SCENARIO: "default"
     ANSIBLE: "2.12"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"cluster-29":
+  needs:
+    - "linting"
+  stage: "cluster-29"
+  variables:
+    SCENARIO: "cluster"
+    ANSIBLE: "2.9"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"cluster-210":
+  needs:
+    - "linting"
+  stage: "cluster-210"
+  variables:
+    SCENARIO: "cluster"
+    ANSIBLE: "2.10"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"cluster-211":
+  needs:
+    - "linting"
+  stage: "cluster-211"
+  variables:
+    SCENARIO: "cluster"
+    ANSIBLE: "2.11"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"cluster_notransit-29":
+  needs:
+    - "linting"
+  stage: "cluster_notransit-29"
+  variables:
+    SCENARIO: "cluster_notransit"
+    ANSIBLE: "2.9"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"cluster_notransit-210":
+  needs:
+    - "linting"
+  stage: "cluster_notransit-210"
+  variables:
+    SCENARIO: "cluster_notransit"
+    ANSIBLE: "2.10"
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "main"
+  parallel:
+    matrix:
+      - PLATFORM: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+  script:
+    - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
+
+"cluster_notransit-211":
+  needs:
+    - "linting"
+  stage: "cluster_notransit-211"
+  variables:
+    SCENARIO: "cluster_notransit"
+    ANSIBLE: "2.11"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:

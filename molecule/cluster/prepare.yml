@@ -25,3 +25,74 @@
 
   roles:
     - role: mullholland.repository_hashicorp
+
+- name: prepare transit server
+  hosts: vault_transit
+  become: true
+  gather_facts: true
+  vars:
+    vault_listeners:
+      - name: tcp
+        address: "0.0.0.0:8200"
+        cluster_address: "127.0.0.1:8201"
+        tls_disable: "true"
+        unauthenticated_metrics_access: "true"
+    # show more info for testing
+    vault_show_unseal_information: true
+    vault_store_root_token: true
+
+  roles:
+    - role: "ansible-role-vault"
+  tasks:
+    - name: "write variables for cluster"
+      ansible.builtin.copy:
+        dest: "{{ playbook_dir }}/.env"
+        content: |
+          ---
+          transit_cluster_address: "http://{{ inventory_hostname }}:8200"
+          transit_cluster_token: "{{ vault_init_output.root_token | default(vault_root_token) }}"
+      become: false
+      delegate_to: localhost
+
+    - name: Wait for active API
+      uri:
+        url: "{{ vault_api_addr }}/v1/sys/health"
+        method: GET
+        status_code: 200
+        body_format: json
+      register: check_result
+      retries: 6
+      until: check_result is succeeded
+      delay: 10
+      changed_when: false
+
+
+    - name: "enable transit secrets engine"
+      ansible.builtin.command:
+        cmd: vault secrets enable transit
+      environment:
+        VAULT_ADDR: "{{ vault_api_addr }}"
+
+    - name: "create an encryption key named autounseal"
+      ansible.builtin.command:
+        cmd: vault write -f transit/keys/autounseal
+      environment:
+        VAULT_ADDR: "{{ vault_api_addr }}"
+
+    - name: "Create a policy file autounseal.hcl"
+      ansible.builtin.copy:
+        dest: "/tmp/autounseal.hcl"
+        content: |
+          path "transit/encrypt/autounseal" {
+            capabilities = [ "update" ]
+          }
+
+          path "transit/decrypt/autounseal" {
+            capabilities = [ "update" ]
+          }
+
+    - name: "Create a policy autounseal"
+      ansible.builtin.command:
+        cmd: vault policy write autounseal /tmp/autounseal.hcl
+      environment:
+        VAULT_ADDR: "{{ vault_api_addr }}"

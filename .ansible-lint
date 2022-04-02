@@ -1,6 +1,7 @@
 ---
 # managed by ansible-role-doc-generator
 exclude_paths:
+  - "./.github/"
   - "./molecule/"
   - ./.cache
   - ./.git

@@ -80,7 +80,7 @@ vault_cluster_name: "Vault Cluster"
 # ---------------------------------------------------------------------------
 vault_transit: false
 vault_transit_protocol: "http"
-vault_transit_server: "{{ vault_leader }}"
+vault_transit_server: "{{ vault_cluster_addr }}"
 vault_transit_port: "8200"
 
 # ---------------------------------------------------------------------------
@@ -148,6 +148,10 @@ vault_telemetry:
 # ---------------------------------------------------------------------------
 # Backup
 # ---------------------------------------------------------------------------
+
+# For this to work you need a vaitl token in /root/.vault-token
+# you can use the option `vault_store_root_token` from this playbook
+# which should be OK for testing or at home.
 
 vault_backup_disable: false
 vault_backup:
@@ -250,9 +254,14 @@ This role has been tested on these [container images](https://hub.docker.com/u/m
 
 The minimum version of Ansible required is 2.10, tests have been done to:
 
--   The last 2 versions.
+-   The previous versions.
 -   The current version.
 
+This Role has the following additional molecule test scenarios:
+-   cluster
+-   cluster_notransit
+
+Details can be found in ```molecule/```
 
 
 ## [Exceptions](#exceptions)

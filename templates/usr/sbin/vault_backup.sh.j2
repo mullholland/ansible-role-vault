@@ -19,10 +19,10 @@ exec 2>&1
 function check_tools {
   RM="$(command -v rm)"
   FIND="$(command -v find)"
-  TAR="$(command -v tar)"
+  CURL="$(command -v curl)"
 
   echo "$(date "+%Y-%m-%d %H:%M:%S") | Check if tools exist"
-  for var in RM FIND TAR; do
+  for var in RM FIND CURL; do
     if [[ ! ${!var}  ]] ; then
       error_exit "ERROR: Variable $var needed but not set!"
     fi
@@ -82,12 +82,23 @@ function remove_old_backups {
 ########
 
 check_tools
-check_pid
-# PRE SCRIPT
-{{ vault_backup.config.script.pre | default("# no pre script", true) }}
-run_backup
-remove_old_backups
-# SUCCESS SCRIPT
-{{ vault_backup.config.script.success | default("# no success script", true) }}
-# POST SCRIPT
-{{ vault_backup.config.script.post | default("# no post script", true) }}
+echo "$(date "+%Y-%m-%d %H:%M:%S") | Get vault status via ${VAULT_ADDR}/v1/sys/health."
+# Get Vault status
+status_code=$($CURL --write-out "%{http_code}" --silent --output /dev/null "${VAULT_ADDR}/v1/sys/health")
+echo "$(date "+%Y-%m-%d %H:%M:%S") | Got Vault status = ${status_code}."
+
+if [[ "$status_code" -ne 200 ]] ; then
+  echo "$(date "+%Y-%m-%d %H:%M:%S") | Vault status != 200. Vault node not leader. No Backup will be made."
+else
+  check_pid
+  # PRE SCRIPT
+  {{ vault_backup.config.script.pre | default("# no pre script", true) }}
+  run_backup
+  remove_old_backups
+  echo "$(date "+%Y-%m-%d %H:%M:%S") | Backup can be found in ${BACKUP_DIR}."
+  # SUCCESS SCRIPT
+  {{ vault_backup.config.script.success | default("# no success script", true) }}
+  # POST SCRIPT
+  {{ vault_backup.config.script.post | default("# no post script", true) }}
+fi
+

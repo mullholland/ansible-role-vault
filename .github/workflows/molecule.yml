@@ -1,0 +1,210 @@
+---
+# Ansible managed
+
+name: "Ansible Molecule"
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '*.*'
+  pull_request:
+    types: [assigned]
+  schedule:
+    - cron: '43 22 22 * *'
+
+jobs:
+  linting:
+    runs-on: ubuntu-20.04
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh
+
+  "default_previous":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "default_current":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "default_next":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "cluster_previous":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "cluster_current":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "cluster_next":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "cluster_notransit_previous":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "cluster_notransit_current":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
+  "cluster_notransit_next":
+    runs-on: ubuntu-20.04
+    needs:
+      - linting
+    container:
+      image: ghcr.io/mullholland/docker-molecule-shell:latest
+      env:
+        command: "lint"
+        scenario: "default"
+        ansible: "current"
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, centos7, centos-stream8, ubi8, fedora34, fedora35, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: molecule lint
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh

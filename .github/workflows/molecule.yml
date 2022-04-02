@@ -208,4 +208,3 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
-

@@ -48,6 +48,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "default_current":
     runs-on: ubuntu-20.04
     needs:
@@ -67,6 +68,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "default_next":
     runs-on: ubuntu-20.04
     needs:
@@ -86,6 +88,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "cluster_previous":
     runs-on: ubuntu-20.04
     needs:
@@ -105,6 +108,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "cluster_current":
     runs-on: ubuntu-20.04
     needs:
@@ -124,6 +128,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "cluster_next":
     runs-on: ubuntu-20.04
     needs:
@@ -143,6 +148,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "cluster_notransit_previous":
     runs-on: ubuntu-20.04
     needs:
@@ -162,6 +168,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "cluster_notransit_current":
     runs-on: ubuntu-20.04
     needs:
@@ -181,6 +188,7 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+
   "cluster_notransit_next":
     runs-on: ubuntu-20.04
     needs:
@@ -200,3 +208,4 @@ jobs:
         uses: actions/checkout@v2
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+

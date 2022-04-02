@@ -15,4 +15,4 @@
     hour: "{{ vault_backup.cron.hour }}"
     day: "{{ vault_backup.cron.day }}"
     job: "/usr/sbin/vault_backup.sh"
-    user: "{{ vault_user }}"
+    user: "root"

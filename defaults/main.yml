@@ -137,6 +137,10 @@ vault_telemetry:
 # Backup
 # ---------------------------------------------------------------------------
 
+# For this to work you need a vaitl token in /root/.vault-token
+# you can use the option `vault_store_root_token` from this playbook
+# which should be OK for testing or at home.
+
 vault_backup_disable: false
 vault_backup:
   cron:

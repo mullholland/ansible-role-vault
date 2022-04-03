@@ -27,7 +27,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} command=${command} /opt/molecule.sh
 
   "default_previous":
     runs-on: ubuntu-20.04
@@ -36,7 +36,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -46,8 +46,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "default_current":
     runs-on: ubuntu-20.04
@@ -56,7 +56,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -66,8 +66,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "default_next":
     runs-on: ubuntu-20.04
@@ -76,7 +76,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -86,8 +86,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "cluster_previous":
     runs-on: ubuntu-20.04
@@ -96,7 +96,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -106,8 +106,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "cluster_current":
     runs-on: ubuntu-20.04
@@ -116,7 +116,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -126,8 +126,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "cluster_next":
     runs-on: ubuntu-20.04
@@ -136,7 +136,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -146,8 +146,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "cluster_notransit_previous":
     runs-on: ubuntu-20.04
@@ -156,7 +156,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -166,8 +166,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "cluster_notransit_current":
     runs-on: ubuntu-20.04
@@ -176,7 +176,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -186,8 +186,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
 
   "cluster_notransit_next":
     runs-on: ubuntu-20.04
@@ -196,7 +196,7 @@ jobs:
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
       env:
-        command: "lint"
+        command: "test"
         scenario: "default"
         ansible: "current"
     strategy:
@@ -206,5 +206,5 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: molecule lint
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} /opt/molecule.sh
+      - name: molecule test
+        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh

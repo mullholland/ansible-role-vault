@@ -35,10 +35,6 @@ jobs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -47,7 +43,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=default ansible=previous platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
   "default_current":
     runs-on: ubuntu-20.04
@@ -55,10 +51,6 @@ jobs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -67,18 +59,14 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=default ansible=current platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
-  "default_next":
+  "default_development":
     runs-on: ubuntu-20.04
     needs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -87,7 +75,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=default ansible=development platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
   "cluster_previous":
     runs-on: ubuntu-20.04
@@ -95,10 +83,6 @@ jobs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -107,7 +91,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=cluster ansible=previous platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
   "cluster_current":
     runs-on: ubuntu-20.04
@@ -115,10 +99,6 @@ jobs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -127,18 +107,14 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=cluster ansible=current platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
-  "cluster_next":
+  "cluster_development":
     runs-on: ubuntu-20.04
     needs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -147,7 +123,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=cluster ansible=development platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
   "cluster_notransit_previous":
     runs-on: ubuntu-20.04
@@ -155,10 +131,6 @@ jobs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -167,7 +139,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=cluster_notransit ansible=previous platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
   "cluster_notransit_current":
     runs-on: ubuntu-20.04
@@ -175,10 +147,6 @@ jobs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -187,18 +155,14 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=cluster_notransit ansible=current platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
-  "cluster_notransit_next":
+  "cluster_notransit_development":
     runs-on: ubuntu-20.04
     needs:
       - linting
     container:
       image: ghcr.io/mullholland/docker-molecule-shell:latest
-      env:
-        command: "test"
-        scenario: "default"
-        ansible: "current"
     strategy:
       fail-fast: false
       matrix:
@@ -207,4 +171,4 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
       - name: molecule test
-        run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${{ matrix.platform }} command=${command} /opt/molecule.sh
+        run: scenario=cluster_notransit ansible=development platform=${{ matrix.platform }} command=test /opt/molecule.sh

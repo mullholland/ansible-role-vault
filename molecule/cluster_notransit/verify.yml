@@ -79,7 +79,7 @@
         hour: "*"
         day: "*"
         job: "/usr/sbin/vault_backup.sh"
-        user: "vault"
+        user: "root"
       check_mode: true
       register: molecule_backup_cron
       failed_when: (molecule_backup_cron is changed) or (molecule_backup_cron is failed)

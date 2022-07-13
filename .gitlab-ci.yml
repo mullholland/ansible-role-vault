@@ -8,13 +8,13 @@ stages:
   - linting
   - "default-previous"
   - "default-current"
-  - "default-next"
+  - "default-development"
   - "cluster-previous"
   - "cluster-current"
-  - "cluster-next"
+  - "cluster-development"
   - "cluster_notransit-previous"
   - "cluster_notransit-current"
-  - "cluster_notransit-next"
+  - "cluster_notransit-development"
 
 variables:
   DOCKER_HOST: "tcp://docker:2375"
@@ -59,13 +59,14 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"default-next":
+"default-development":
   needs:
     - "linting"
-  stage: "default-next"
+  allow_failure: true
+  stage: "default-development"
   variables:
     SCENARIO: "default"
-    ANSIBLE: "next"
+    ANSIBLE: "development"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -104,13 +105,14 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster-next":
+"cluster-development":
   needs:
     - "linting"
-  stage: "cluster-next"
+  allow_failure: true
+  stage: "cluster-development"
   variables:
     SCENARIO: "cluster"
-    ANSIBLE: "next"
+    ANSIBLE: "development"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:
@@ -149,13 +151,14 @@ linting:
   script:
     - "scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} /opt/molecule.sh"
 
-"cluster_notransit-next":
+"cluster_notransit-development":
   needs:
     - "linting"
-  stage: "cluster_notransit-next"
+  allow_failure: true
+  stage: "cluster_notransit-development"
   variables:
     SCENARIO: "cluster_notransit"
-    ANSIBLE: "next"
+    ANSIBLE: "development"
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   parallel:

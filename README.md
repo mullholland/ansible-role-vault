@@ -2,7 +2,7 @@
 
 |GitHub|GitLab|
 |------|------|
-|[![github](https://github.com/mullholland/ansible-role-vault/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-vault/actions)|[![gitlab](https://gitlab.com/mullholland/ansible-role-vault/badges/master/pipeline.svg)](https://gitlab.com/mullholland/ansible-role-vault)|[![quality](https://img.shields.io/ansible/quality/unset)](https://galaxy.ansible.com/mullholland/vault)|
+|[![github](https://github.com/mullholland/ansible-role-vault/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-vault/actions)|[![gitlab](https://gitlab.com/mullholland/ansible-role-vault/badges/main/pipeline.svg)](https://gitlab.com/mullholland/ansible-role-vault)|
 
 description
 
@@ -257,7 +257,6 @@ The minimum version of Ansible required is 2.10, tests have been done to:
 
 -   The previous versions.
 -   The current version.
--   The [devel](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-devel-from-github-with-pip) version.
 
 This Role has the following additional molecule test scenarios:
 -   cluster

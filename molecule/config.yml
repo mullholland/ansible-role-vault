@@ -4,7 +4,7 @@ molecule_exceptions:
     reason: "No hashicorp Repository"
 molecule_scenarios:
   - scenario: "default"
-    ansible: ["previous", "current", "development"]
+    ansible: ["previous", "current"]
     platforms:
       - "debian9"
       - "debian10"
@@ -21,7 +21,7 @@ molecule_scenarios:
       - "rockylinux8"
       - "almalinux8"
   - scenario: "cluster"
-    ansible: ["previous", "current", "development"]
+    ansible: ["previous", "current"]
     platforms:
       - "debian9"
       - "debian10"
@@ -38,7 +38,7 @@ molecule_scenarios:
       - "rockylinux8"
       - "almalinux8"
   - scenario: "cluster_notransit"
-    ansible: ["previous", "current", "development"]
+    ansible: ["previous", "current"]
     platforms:
       - "debian9"
       - "debian10"

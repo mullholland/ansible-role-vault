@@ -25,7 +25,7 @@ jobs:
         ansible: "current"
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule lint
         run: scenario=${SCENARIO} ansible=${ANSIBLE} platform=${PLATFORM} command=${command} /opt/molecule.sh
 
@@ -41,7 +41,7 @@ jobs:
         platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, ubuntu2204, centos7, centos-stream8, ubi8, fedora35, fedora36, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule test
         run: scenario=default ansible=previous platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
@@ -57,7 +57,7 @@ jobs:
         platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, ubuntu2204, centos7, centos-stream8, ubi8, fedora35, fedora36, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule test
         run: scenario=default ansible=current platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
@@ -73,7 +73,7 @@ jobs:
         platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, ubuntu2204, centos7, centos-stream8, ubi8, fedora35, fedora36, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule test
         run: scenario=cluster ansible=previous platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
@@ -89,7 +89,7 @@ jobs:
         platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, ubuntu2204, centos7, centos-stream8, ubi8, fedora35, fedora36, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule test
         run: scenario=cluster ansible=current platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
@@ -105,7 +105,7 @@ jobs:
         platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, ubuntu2204, centos7, centos-stream8, ubi8, fedora35, fedora36, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule test
         run: scenario=cluster_notransit ansible=previous platform=${{ matrix.platform }} command=test /opt/molecule.sh
 
@@ -121,6 +121,6 @@ jobs:
         platform: [debian9, debian10, debian11, ubuntu1804, ubuntu2004, ubuntu2204, centos7, centos-stream8, ubi8, fedora35, fedora36, amazonlinux, rockylinux8, almalinux8]  # yamllint disable-line rule:line-length
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: molecule test
         run: scenario=cluster_notransit ansible=current platform=${{ matrix.platform }} command=test /opt/molecule.sh

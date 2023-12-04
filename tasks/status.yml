@@ -1,5 +1,5 @@
 ---
-- name: check status of vault
+- name: status | check status of vault
   ansible.builtin.command:
     cmd: vault status -format=yaml
   environment:
@@ -10,6 +10,6 @@
   failed_when:
     - vault_status_raw.rc == 1
 
-- name: save vault_status
+- name: status | save vault_status
   ansible.builtin.set_fact:
     vault_status: "{{ vault_status_raw.stdout | from_yaml }}"

@@ -22,9 +22,8 @@ galaxy_info:
         - Candidate
     - name: Fedora
       versions:
-        - all
-        # - 34
-        # - 35
+        - "38"
+        - "39"
     - name: Ubuntu
       versions:
         - all
@@ -38,15 +37,9 @@ galaxy_info:
         # - buster
         # - bullseye
 
-  galaxy_tags: []
-  #  - cloud
-  #  - database
-  #  - development
-  #  - monitoring
-  #  - networking
-  #  - packaging
-  #  - system
-  #  - web
+  galaxy_tags:
+    - cloud
+    - system
 
 dependencies: []
 # List your role dependencies here, one per line. Be sure to remove the '[]' above,

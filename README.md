@@ -84,18 +84,12 @@ vault_user: "vault"
 vault_group: "vault"
 
 # Paths
-vault_bin_path: "/usr/bin"
 vault_config_path: "/etc/vault.d"
 vault_plugin_path: "/usr/local/lib/vault/plugins"
 vault_data_path: "/opt/vault/data"
 vault_backup_path: "/opt/vault/backup"
 vault_log_path: "/var/log/vault"
 vault_run_path: "/var/run/vault"
-
-# Telemetry
-vault_telemetry_enabled: false
-# metrics
-vault_unauthenticated_metrics_access: false
 
 # ---------------------------------------------------------------------------
 # config general
@@ -138,9 +132,7 @@ vault_cluster_name: "Vault Cluster"
 # Seal transit
 # ---------------------------------------------------------------------------
 vault_transit: false
-vault_transit_protocol: "http"
 vault_transit_server: "{{ vault_cluster_addr }}"
-vault_transit_port: "8200"
 
 # ---------------------------------------------------------------------------
 # config listeners
@@ -260,7 +252,7 @@ This role has been tested on these [container images](https://hub.docker.com/u/m
 |---------|----|
 |[EL](https://hub.docker.com/r/mullholland/enterpriselinux)|all|
 |[Amazon](https://hub.docker.com/r/mullholland/amazonlinux)|Candidate|
-|[Fedora](https://hub.docker.com/r/mullholland/fedora/)|all|
+|[Fedora](https://hub.docker.com/r/mullholland/fedora/)|38, 39|
 |[Ubuntu](https://hub.docker.com/r/mullholland/ubuntu)|all|
 |[Debian](https://hub.docker.com/r/mullholland/debian)|all|
 

@@ -13,18 +13,12 @@ vault_user: "vault"
 vault_group: "vault"
 
 # Paths
-vault_bin_path: "/usr/bin"
 vault_config_path: "/etc/vault.d"
 vault_plugin_path: "/usr/local/lib/vault/plugins"
 vault_data_path: "/opt/vault/data"
 vault_backup_path: "/opt/vault/backup"
 vault_log_path: "/var/log/vault"
 vault_run_path: "/var/run/vault"
-
-# Telemetry
-vault_telemetry_enabled: false
-# metrics
-vault_unauthenticated_metrics_access: false
 
 # ---------------------------------------------------------------------------
 # config general
@@ -67,9 +61,7 @@ vault_cluster_name: "Vault Cluster"
 # Seal transit
 # ---------------------------------------------------------------------------
 vault_transit: false
-vault_transit_protocol: "http"
 vault_transit_server: "{{ vault_cluster_addr }}"
-vault_transit_port: "8200"
 
 # ---------------------------------------------------------------------------
 # config listeners

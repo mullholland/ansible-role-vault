@@ -1,5 +1,5 @@
 ---
-- name: "create /usr/sbin/vault_backup.sh"
+- name: "backup | create /usr/sbin/vault_backup.sh"
   ansible.builtin.template:
     src: "usr/sbin/vault_backup.sh.j2"
     dest: "/usr/sbin/vault_backup.sh"
@@ -7,7 +7,7 @@
     group: "{{ vault_group }}"
     mode: "0750"
 
-- name: "create backup cron /etc/cron.d/vault"
+- name: "backup | create backup cron /etc/cron.d/vault"
   ansible.builtin.cron:
     name: "Vault Backup"
     cron_file: "vault"

@@ -1,11 +1,17 @@
 ---
+#
 # Ansible managed
+#
 
-name: Release to Ansible Galaxy
+name: Ansible Galaxy
 
+# Only release to ansible galaxy if semantic release was successful
 on:
-  release:
-    types: [released]
+  workflow_run:
+    workflows: [Semantic release]
+    types:
+      - completed
+
 jobs:
   release:
     runs-on: ubuntu-20.04
@@ -13,5 +19,5 @@ jobs:
       - name: galaxy
         uses: robertdebock/galaxy-action@1.2.1
         with:
-          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
-          git_branch: "main"
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          git_branch: main

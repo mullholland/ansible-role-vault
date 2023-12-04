@@ -1,10 +1,10 @@
 ---
-- name: Install vault
+- name: install | Install vault
   ansible.builtin.package:
     name: "{{ vault_packages }}"
     state: present
 
-- name: create vault directories
+- name: install | create vault directories
   ansible.builtin.file:
     path: "{{ item }}"
     mode: "0750"

@@ -1,5 +1,5 @@
 ---
-- name: select leader if vault_leader is unset
+- name: preflight | select leader if vault_leader is unset
   ansible.builtin.set_fact:
     vault_leader: "{{ inventory_hostname }}"
     vault_transit_server: "{{ inventory_hostname }}"
@@ -7,6 +7,6 @@
   when:
     - vault_leader is not defined
 
-- name: print elected leader
+- name: preflight | print elected leader
   ansible.builtin.debug:
     msg: "{{ vault_leader }}"

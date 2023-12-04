@@ -1,5 +1,5 @@
 ---
-- name: "create /etc/vaultd.d/config.hcl"
+- name: "configure | create /etc/vaultd.d/config.hcl"
   ansible.builtin.template:
     src: "etc/vault.d/vault.hcl.j2"
     dest: "/etc/vault.d/vault.hcl"
@@ -9,7 +9,7 @@
   notify:
     - restart vault
 
-- name: "create /etc/vaultd.d/config.hcl"
+- name: "configure | create /etc/vaultd.d/config.hcl"
   ansible.builtin.template:
     src: "etc/vault.d/vault.env.j2"
     dest: "/etc/vault.d/vault.env"
@@ -19,7 +19,7 @@
   notify:
     - restart vault
 
-- name: place vault license
+- name: configure | place vault license
   ansible.builtin.copy:
     content: "{{ vault_license }}"
     dest: /etc/vault.d/vault.hclic
@@ -31,7 +31,7 @@
   when:
     - vault_license is defined
 
-- name: start vault
+- name: configure | start vault
   ansible.builtin.service:
     name: vault
     state: started

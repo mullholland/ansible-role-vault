@@ -1,4 +1,8 @@
 ---
+#
+# Ansible managed
+#
+
 # Set update schedule for GitHub Actions
 
 version: 2

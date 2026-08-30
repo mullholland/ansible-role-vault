@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  become: true
   gather_facts: true
   vars:
     # no ssl certificates for testing
@@ -15,4 +14,4 @@
     vault_show_unseal_information: true
     vault_store_root_token: true
   roles:
-    - role: "ansible-role-vault"
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"

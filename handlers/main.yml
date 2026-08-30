@@ -1,12 +1,12 @@
 ---
-- name: restart vault
+- name: Restart vault
   ansible.builtin.service:
     name: "vault"
     state: restarted
   notify:
-    - unseal vault
+    - Unseal vault
 
-- name: unseal vault
+- name: Unseal vault
   ansible.builtin.command:
     cmd: vault operator unseal {{ item }}
   changed_when: false

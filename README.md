@@ -13,7 +13,6 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
 ---
 - name: Converge
   hosts: all
-  become: true
   gather_facts: true
   vars:
     # no ssl certificates for testing
@@ -27,7 +26,7 @@ This example is taken from [`molecule/default/converge.yml`](https://github.com/
     vault_show_unseal_information: true
     vault_store_root_token: true
   roles:
-    - role: "mullholland.vault"
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
 ```
 
 The machine needs to be prepared. In CI this is done using [`molecule/default/prepare.yml`](https://github.com/mullholland/ansible-role-vault/blob/master/molecule/default/prepare.yml):
@@ -36,7 +35,6 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
 ---
 - name: Prepare
   hosts: all
-  become: true
   gather_facts: true
 
   tasks:
@@ -61,7 +59,6 @@ The machine needs to be prepared. In CI this is done using [`molecule/default/pr
   roles:
     - role: mullholland.repository_hashicorp
 ```
-
 
 
 ## [Role Variables](#role-variables)
@@ -235,14 +232,11 @@ The following roles are used to prepare a system. You can prepare your system in
 
 | Requirement | GitHub | GitLab |
 |-------------|--------|--------|
-|[mullholland.repository_hashicorp](https://galaxy.ansible.com/mullholland/repository_hashicorp)|[![Build Status GitHub](https://github.com/mullholland/ansible-role-repository_hashicorp/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-repository_hashicorp/actions)|[![Build Status GitLab](https://gitlab.com/opensourceunicorn/ansible-role-repository_hashicorp/badges/master/pipeline.svg)](https://gitlab.com/opensourceunicorn/ansible-role-repository_hashicorp)|
+|[mullholland.repository_hashicorp](https://galaxy.ansible.com/mullholland/repository_hashicorp)|[![Build Status GitHub](https://github.com/mullholland/ansible-role-repository_hashicorp/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-repository_hashicorp/actions)|[![Build Status GitLab](https://gitlab.com/mullholland-github-mirror/ansible-role-repository_hashicorp/badges/master/pipeline.svg)](https://gitlab.com/mullholland-github-mirror/ansible-role-repository_hashicorp)|
 
 ## [Context](#context)
 
 This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://mullholland.net) for further information.
-
-Here is an overview of related roles:
-![dependencies](https://raw.githubusercontent.com/mullholland/ansible-role-vault/png/requirements.png "Dependencies")
 
 ## [Compatibility](#compatibility)
 
@@ -251,16 +245,19 @@ This role has been tested on these [container images](https://hub.docker.com/u/m
 |container|tags|
 |---------|----|
 |[EL](https://hub.docker.com/r/mullholland/enterpriselinux)|all|
-|[Amazon](https://hub.docker.com/r/mullholland/amazonlinux)|Candidate|
-|[Fedora](https://hub.docker.com/r/mullholland/fedora/)|38, 39|
+|[Amazon](https://hub.docker.com/r/mullholland/amazonlinux)|all|
+|[Fedora](https://hub.docker.com/r/mullholland/fedora/)|43|
+|[Rocky](https://hub.docker.com/r/mullholland/rockylinux)|all|
+|[AlmaLinux](https://hub.docker.com/r/mullholland/almalinux)|all|
 |[Ubuntu](https://hub.docker.com/r/mullholland/ubuntu)|all|
 |[Debian](https://hub.docker.com/r/mullholland/debian)|all|
+|[CentOS](https://hub.docker.com/r/mullholland/centos)|all|
 
 The minimum version of Ansible required is 2.10, tests have been done to:
 
+- The version before the previous version.
 - The previous version.
 - The current version.
-- The development version.
 
 If you find issues, please register them in [GitHub](https://github.com/mullholland/ansible-role-vault/issues).
 

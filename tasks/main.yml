@@ -1,34 +1,34 @@
 ---
 
-- name: preflight
+- name: Preflight
   ansible.builtin.include_tasks:
     file: preflight.yml
 
-- name: install vault
+- name: Install vault
   ansible.builtin.include_tasks:
     file: install.yml
 
-- name: configure vault
+- name: Configure vault
   ansible.builtin.include_tasks:
     file: configure.yml
 
-- name: status vault
+- name: Status vault
   ansible.builtin.include_tasks:
     file: status.yml
 
-- name: leader
+- name: Leader
   ansible.builtin.include_tasks:
     file: leader.yml
   when:
     - inventory_hostname == vault_leader
 
-- name: follower
+- name: Follower
   ansible.builtin.include_tasks:
     file: follower.yml
   when:
     - inventory_hostname != vault_leader
 
-- name: backup
+- name: Backup
   ansible.builtin.include_tasks:
     file: backup.yml
   when:

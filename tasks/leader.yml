@@ -1,8 +1,8 @@
 ---
-- name: leader | configure leader
+- name: leader | Configure leader
   run_once: true
   block:
-    - name: leader | initialize vault on leader
+    - name: leader | Initialize vault on leader
       ansible.builtin.command:
         cmd: vault operator init -key-shares={{ vault_key_shares }} -key-threshold={{ vault_key_threshold }} -format=yaml
       register: vault_operator_init
@@ -12,29 +12,29 @@
       when:
         - not vault_status.initialized | bool
 
-    - name: leader | save vault_init_output for leader
+    - name: leader | Save vault_init_output for leader
       ansible.builtin.set_fact:
         vault_init_output: "{{ vault_operator_init.stdout | from_yaml }}"
       when:
         - vault_operator_init is defined
         - vault_operator_init.stdout is defined
 
-    - name: leader | unseal vault leader
+    - name: leader | Unseal vault leader
       when:
         - (vault_init_output is defined and
           vault_init_output.unseal_keys_b64 is defined and
           vault_init_output.unseal_keys_b64 is iterable) or
           (vault_unseal_keys is defined)
       block:
-        - name: leader | show unseal information
+        - name: leader | Show unseal information
           when:
             - vault_show_unseal_information | bool
           block:
-            - name: leader | show unseal keys for leader
+            - name: leader | Show unseal keys for leader
               ansible.builtin.debug:
                 msg: "{{ vault_init_output.unseal_keys_b64 | default(vault_unseal_keys) }}"
 
-            - name: leader | show root token for leader
+            - name: leader | Show root token for leader
               ansible.builtin.debug:
                 msg: "{{ vault_init_output.root_token | default(vault_root_token) }}"
               when:
@@ -42,7 +42,7 @@
                   vault_init_output.root_token is defined or
                   vault_root_token is defined
 
-        - name: leader | save login token to /root/.vault-token
+        - name: leader | Save login token to /root/.vault-token
           ansible.builtin.copy:
             content: "{{ vault_init_output.root_token | default(vault_root_token) }}"
             dest: /root/.vault-token
@@ -55,7 +55,7 @@
               vault_init_output.root_token is defined or
               vault_root_token is defined
 
-        - name: leader | unseal vault leader
+        - name: leader | Unseal vault leader
           ansible.builtin.command:
             cmd: vault operator unseal {{ item }}
           changed_when: false

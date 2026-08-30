@@ -19,23 +19,23 @@ galaxy_info:
         - all
     - name: Amazon
       versions:
-        - Candidate
+        - all
     - name: Fedora
       versions:
-        - "38"
-        - "39"
+        # HashiCorp's Fedora repo doesn't have packages for 42 yet.
+        - "43"
+    - name: Rocky
+      versions:
+        - all
+    - name: AlmaLinux
+      versions:
+        - all
     - name: Ubuntu
       versions:
         - all
-        # - bionic
-        # - focal
-        # - jammy
     - name: Debian
       versions:
         - all
-        # - stretch
-        # - buster
-        # - bullseye
 
   galaxy_tags:
     - cloud

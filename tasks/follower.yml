@@ -1,13 +1,13 @@
 ---
-- name: follower | configure follower
+- name: follower | Configure follower
   when:
     - vault_status.sealed | bool
   block:
-    - name: follower | print elected leader
+    - name: follower | Print elected leader
       ansible.builtin.debug:
         msg: "{{ vault_leader }}"
 
-    - name: follower | join follower to leader
+    - name: follower | Join follower to leader
       ansible.builtin.command:
         cmd: vault operator raft join -tls-skip-verify http://{{ vault_leader }}:8200
       changed_when: false
@@ -20,7 +20,7 @@
         VAULT_ADDR: "{{ vault_api_addr }}"
         VAULT_TOKEN: "{{ vault_init_output.root_token | default(vault_root_token) }}"
 
-    - name: follower | unseal vault follower
+    - name: follower | Unseal vault follower
       ansible.builtin.command:
         cmd: vault operator unseal {{ item }}
       changed_when: false

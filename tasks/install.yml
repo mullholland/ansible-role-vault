@@ -4,7 +4,7 @@
     name: "{{ vault_packages }}"
     state: present
 
-- name: install | create vault directories
+- name: install | Create vault directories
   ansible.builtin.file:
     path: "{{ item }}"
     mode: "0750"

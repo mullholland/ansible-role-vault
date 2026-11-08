@@ -35,6 +35,8 @@ jobs:
             tag: "2023"
           - image: "fedora"
             tag: "43"
+          - image: "fedora"
+            tag: "44"
           - image: "rockylinux"
             tag: "8"
           - image: "rockylinux"
